@@ -20,7 +20,11 @@ function createSessionRequestPayload(callbackBaseUrl, ngrokUrl) {
     merchantReference: '1234ABC',
     currency: 'GBP',
     language: 'en',
-    methods: ['applepay'],
+    methods: [
+      'card',
+      'applepay',
+      'googlepay'
+    ],
     callbackUrls: {
       approved: `${callbackBaseUrl}/approved`,
       declined: `${callbackBaseUrl}/declined`,
