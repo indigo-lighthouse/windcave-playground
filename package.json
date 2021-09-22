@@ -1,0 +1,12 @@
+{
+  "name": "windcave-test",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "devDependencies": {
+    "body-parser": "latest",
+    "express": "latest",
+    "ngrok": "latest",
+    "node-fetch": "latest"
+  }
+}
