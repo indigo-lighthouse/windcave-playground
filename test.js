@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable */
 
+import path from 'path'
 import fetch from 'node-fetch'
 import express from 'express'
 import bodyParser from 'body-parser'
@@ -72,6 +73,10 @@ function startServer() {
 
   app.use(bodyParser.json())
 
+  app.get('/applepay', async (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'applepay.html'))
+  })
+
   app.get('/windcave', async (req, res) => {
     // create session
     const body = JSON.stringify(createSessionRequestPayload(`http://localhost:${server.address().port}`, ngrokUrl))
@@ -91,25 +96,25 @@ function startServer() {
   app.get('/approved', (req, res) => {
     console.log('/approved', req.query)
     res.send(`
-    <p class="redirect-callback">Approved form submit:</p>
-    <p>${JSON.stringify(req.query, null, 2)}</p>
-  `)
+      <p class="redirect-callback">Approved form submit:</p>
+      <p>${JSON.stringify(req.query, null, 2)}</p>
+    `)
   })
 
   app.get('/declined', (req, res) => {
     console.log('/declined', req.query)
     res.send(`
-    <p class="redirect-callback">Declined form submit:</p>
-    <p>${JSON.stringify(req.query, null, 2)}</p>
-  `)
+      <p class="redirect-callback">Declined form submit:</p>
+      <p>${JSON.stringify(req.query, null, 2)}</p>
+    `)
   })
 
   app.get('/cancelled', (req, res) => {
     console.log('/cancelled', req.query)
     res.send(`
-    <p class="redirect-callback">Cancelled form submit:</p>
-    <p>${JSON.stringify(req.query, null, 2)}</p>
-  `)
+      <p class="redirect-callback">Cancelled form submit:</p>
+      <p>${JSON.stringify(req.query, null, 2)}</p>
+    `)
   })
 
   app.post('/notify', (req, res) => {
@@ -126,5 +131,8 @@ function startServer() {
 }
 
 const server = await startServer()
+await ngrok.authtoken(process.env.NGROK_AUTH_TOKEN)
 ngrokUrl = await ngrok.connect(server.address().port)
 console.log(`Ngrok is up: ${ngrokUrl}`)
+console.log(`Apple Pay Supported test: ${ngrokUrl}/applepay`)
+console.log(`Windcave HPP redirect: ${ngrokUrl}/windcave`)

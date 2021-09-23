@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Apple Pay supported?</title>
+  </head>
+  <body>
+    <h1>Apple Pay Test</h1>
+    <script charset="utf-8">
+      if (window.ApplePaySession) {
+        const merchantIdentifier = 'example.com.store'
+        ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier).then(canMakePayments => {
+          if (canMakePayments) {
+            alert('Yay :)')
+          } else {
+            alert('Nay :(')
+          }
+        })
+      }
+    </script>
+  </body>
+</html>
